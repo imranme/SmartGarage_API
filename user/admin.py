@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Unit, Service, Sell, PrivacyPolicy, TermsAndConditions, AboutUs, EmailVerificationToken, PasswordResetOTP
+from .models import CustomUser, EmailVerificationToken, PasswordResetOTP
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -25,46 +25,7 @@ class CustomUserAdmin(UserAdmin):
     
     readonly_fields = ['date_joined', 'last_login']
 
-@admin.register(Unit)
-class UnitAdmin(admin.ModelAdmin):
-    list_display = ['vin', 'brand', 'model', 'year', 'user', 'status', 'created_at']
-    list_filter = ['status', 'brand', 'year', 'created_at']
-    search_fields = ['vin', 'brand', 'model', 'user__email']
-    readonly_fields = ['created_at', 'updated_at']
-    ordering = ['-created_at']
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['unit', 'appointment', 'status', 'cost', 'location', 'created_at']
-    list_filter = ['status', 'past_history', 'appointment', 'created_at']
-    search_fields = ['unit__vin', 'description', 'location']
-    readonly_fields = ['created_at', 'updated_at']
-    ordering = ['-appointment']
-
-@admin.register(Sell)
-class SellAdmin(admin.ModelAdmin):
-    list_display = ['unit', 'sale_price', 'sale_date', 'buyer_name', 'payment_method']
-    list_filter = ['sale_date', 'payment_method']
-    search_fields = ['unit__vin', 'buyer_name', 'buyer_email']
-    readonly_fields = ['created_at', 'updated_at']
-    ordering = ['-sale_date']
-
-@admin.register(PrivacyPolicy)
-class PrivacyPolicyAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'effective_date', 'updated_at']
-    readonly_fields = ['created_at', 'updated_at']
-    ordering = ['-effective_date']
-
-@admin.register(TermsAndConditions)
-class TermsAndConditionsAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'effective_date', 'updated_at']
-    readonly_fields = ['created_at', 'updated_at']
-    ordering = ['-effective_date']
-
-@admin.register(AboutUs)
-class AboutUsAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'updated_at']
-    readonly_fields = ['created_at', 'updated_at']
 
 @admin.register(EmailVerificationToken)
 class EmailVerificationTokenAdmin(admin.ModelAdmin):
