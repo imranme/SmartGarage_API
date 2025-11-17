@@ -1,7 +1,3 @@
-"""
-Dealerships views for J4NEXT API
-"""
-
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -36,14 +32,25 @@ def dealership_list(request):
         'data': serializer.data
     }, status=status.HTTP_200_OK)
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def dealership_detail(request, pk):
-    dealership = get_object_or_404(Dealership, pk=pk, is_active=True)
-    serializer = ChatAppSerializer(dealership)
-    
+def dealership_list(request):
+    dealerships = Dealership.objects.filter(is_active=True).order_by('dealership_name')
+
+    # Filter by city
+    city = request.query_params.get('city')
+    if city:
+        dealerships = dealerships.filter(city__icontains=city)
+
+    # Search by name
+    search = request.query_params.get('search')
+    if search:
+        dealerships = dealerships.filter(dealership_name__icontains=search)
+
+    serializer = ChatAppSerializer(dealerships, many=True)
+
     return Response({
         'status': 'success',
+        'count': dealerships.count(),
         'data': serializer.data
     }, status=status.HTTP_200_OK)
