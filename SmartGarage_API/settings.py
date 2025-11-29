@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-&h0j*10e5vxr64jx6zg9li+6p0s7n_ot&ylx!k23h%0)w101ie
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]   # test purpose
+ALLOWED_HOSTS = ["*"] 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,7 +18,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'rest_framework',
-    'channels',  # ADD THIS
+    'channels',  
 
     # apps
     'user',
@@ -52,12 +52,9 @@ TEMPLATES = [
     },
 ]
 
-# -------------------------
-# 🔥 IMPORTANT: Channels ASGI
-# -------------------------
+
 ASGI_APPLICATION = "SmartGarage_API.asgi.application"
 
-# Redis Channel Layer
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"

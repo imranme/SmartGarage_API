@@ -2,7 +2,7 @@ import os
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
-import ChatApp.routing  # নিশ্চিত হও routing.py আছে
+import ChatApp.routing 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SmartGarage_API.settings')
 

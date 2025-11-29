@@ -1,9 +1,6 @@
 from django.contrib import admin
 from .models import ChatApp, ChatConversation, ChatMessage, ChatRoom
 
-# -------------------------------
-# ChatApp Admin
-# -------------------------------
 @admin.register(ChatApp)
 class ChatAppAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'city', 'phone', 'email', 'is_active', 'created_at']
@@ -12,9 +9,6 @@ class ChatAppAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at']
     ordering = ['name']
 
-# -------------------------------
-# ChatConversation Admin
-# -------------------------------
 @admin.register(ChatConversation)
 class ChatConversationAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'get_chatapp_name', 'is_active', 'started_at', 'last_message_at']
@@ -27,9 +21,6 @@ class ChatConversationAdmin(admin.ModelAdmin):
         return obj.ChatApp.name if obj.ChatApp else "Unknown"
     get_chatapp_name.short_description = 'ChatApp'
 
-# -------------------------------
-# ChatMessage Admin
-# -------------------------------
 @admin.register(ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):
     list_display = ['id', 'conversation', 'sender', 'message_preview', 'is_read', 'sent_at']
@@ -42,9 +33,6 @@ class ChatMessageAdmin(admin.ModelAdmin):
         return obj.message_content[:50] + '...' if len(obj.message_content) > 50 else obj.message_content
     message_preview.short_description = 'Message'
 
-# -------------------------------
-# ChatRoom Admin
-# -------------------------------
 @admin.register(ChatRoom)
 class ChatRoomAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'created_at']
