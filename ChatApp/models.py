@@ -1,12 +1,19 @@
 from django.db import models
 from django.conf import settings
+from user.models import CustomUser
+# from main.models import Unit, Service, Sell 
+from django.contrib.contenttypes.fields import GenericForeignKey 
+from django.contrib.contenttypes.models import ContentType
 
 class ChatApp(models.Model):
-    name = models.CharField(max_length=255, verbose_name="ChatApp Name")
-    address = models.TextField(verbose_name="Full Address")
-    city = models.CharField(max_length=100, blank=True)
-    phone = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='chat_app')
+    admin = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='administered_chat_apps', limit_choices_to={'is_staff': True})
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey('content_type', 'object_id')
+    subject = models.CharField(max_length=255, help_text='Chat subject or topic')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -14,10 +21,12 @@ class ChatApp(models.Model):
         db_table = 'ChatApp'
         verbose_name = 'ChatApp'
         verbose_name_plural = 'ChatApps'
-        ordering = ['name']
+        ordering = ['id']
+        unique_together = [['user', 'content_type', 'object_id']]
 
     def __str__(self):
-        return self.name
+        related_obj = f" - {self.content_object}" if self.content_object else ""
+        return f"Chat: {self.user.email} with Admin{related_obj}"
 
 
 class ChatConversation(models.Model):

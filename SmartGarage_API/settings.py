@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     # apps
     'user',
     'ChatApp',
+    'service',
+    'vehicle',
 ]
 
 MIDDLEWARE = [
