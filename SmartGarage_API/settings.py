@@ -20,11 +20,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',  
 
-    # apps
+    # apps  
     'user',
     'ChatApp',
     'service',
     'vehicle',
+    'core',
 ]
 
 MIDDLEWARE = [
